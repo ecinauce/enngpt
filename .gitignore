@@ -1,0 +1,4 @@
+venv/
+venv/*
+my_awesome_qa_model/
+my_awesome_qa_model/*
