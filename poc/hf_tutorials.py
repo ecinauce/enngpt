@@ -6,7 +6,7 @@ from pprint import pprint as pr
 from datetime import datetime as dt
 
 model_url = "HuggingFaceTB/SmolLM2-1.7B-Instruct" #"Qwen/Qwen2.5-1.5B-Instruct" 
-pipe = pipeline("text-generation", model_url, torch_dtype=torch.bfloat16, device_map="auto")
+pipe = pipeline("text-generation", model_url, torch_dtype=torch.bfloat16, device_map="cuda")
 botName = input("Give the bot a (male) name: ")
 setup = f"""
     There was a filipino named {botName} born on July 12, 1994. He was born and raised in Iligan City, Philippines. He graduated University in the same city, and proceeded to work in
@@ -49,7 +49,7 @@ while _c:
     you = response[0]['generated_text'][-1]['content']
     
     print(f"\n[{now()}] {botName}: "+you)
-    me = input(+f"\n\n[{now()}] You: ")
+    me = input(f"\n\n[{now()}] You: ")
     
     "Chatbot processing"
     me_prompt = {'content': you, 'role': 'assistant'}
