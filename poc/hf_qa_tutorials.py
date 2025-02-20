@@ -3,6 +3,7 @@ from transformers import AutoTokenizer
 from transformers import pipeline
 from transformers import DefaultDataCollator
 from transformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
+from pprint import pprint as pr
 
 
 def preprocess_function(examples):
@@ -88,8 +89,13 @@ trainer = Trainer(
 
 # trainer.train()
 
-question = "How many programming languages does BLOOM support?"
-context = "BLOOM has 176 billion parameters and can generate text in 46 languages natural languages and 13 programming languages."
+question = "Who is Jesus?"
+# context = "BLOOM has 176 billion parameters and can generate text in 46 languages natural languages and 13 programming languages."
+
+with open("asv.txt", "r") as ctx:
+    context = ctx.read()
+
+# pr(context)
 
 # question_answerer = pipeline("question-answering", model="my_awesome_distilbert_qa_model", tokenizer=tokenizer)
 question_answerer = pipeline("question-answering", model="deepset/roberta-base-squad2", tokenizer=tokenizer)
