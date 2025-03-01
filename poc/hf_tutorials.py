@@ -6,7 +6,7 @@ from pprint import pprint as pr
 from datetime import datetime as dt
 
 model_url = "HuggingFaceTB/SmolLM2-1.7B-Instruct" #"Qwen/Qwen2.5-1.5B-Instruct" 
-pipe = pipeline("text-generation", model_url, torch_dtype=torch.bfloat16, device_map="auto")
+pipe = pipeline("text-generation", model_url, torch_dtype=torch.bfloat16, device_map="cuda")
 botName = input("Give the bot a (male) name: ")
 setup = "I want you to classify text according to the task they want done."
 # setup = f"""

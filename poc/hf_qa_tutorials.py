@@ -3,6 +3,7 @@ from transformers import AutoTokenizer
 from transformers import pipeline
 from transformers import DefaultDataCollator
 from transformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
+from pprint import pprint as pr
 
 
 def preprocess_function(examples):
@@ -58,12 +59,14 @@ def preprocess_function(examples):
 
 squad = load_dataset("squad", split="train[:5000]")
 squad = squad.train_test_split(test_size=0.2)
-tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+# tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+tokenizer = AutoTokenizer.from_pretrained("deepset/roberta-base-squad2")
 
 tokenized_squad = squad.map(preprocess_function, batched=True, remove_columns=squad["train"].column_names)
 data_collator = DefaultDataCollator()
 
-model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+# model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+model = AutoModelForQuestionAnswering.from_pretrained("deepset/roberta-base-squad2")
 training_args = TrainingArguments(
     # output_dir="my_awesome_qa_model",
     eval_strategy="epoch",
@@ -84,10 +87,17 @@ trainer = Trainer(
     data_collator=data_collator,
 )
 
-trainer.train()
+# trainer.train()
 
-question = "How many programming languages does BLOOM support?"
-context = "BLOOM has 176 billion parameters and can generate text in 46 languages natural languages and 13 programming languages."
+question = "Who is Jesus?"
+# context = "BLOOM has 176 billion parameters and can generate text in 46 languages natural languages and 13 programming languages."
 
-question_answerer = pipeline("question-answering", model="my_awesome_qa_model")
-question_answerer(question=question, context=context)
+with open("asv.txt", "r") as ctx:
+    context = ctx.read()
+
+# pr(context)
+
+# question_answerer = pipeline("question-answering", model="my_awesome_distilbert_qa_model", tokenizer=tokenizer)
+question_answerer = pipeline("question-answering", model="deepset/roberta-base-squad2", tokenizer=tokenizer)
+result = question_answerer(question=question, context=context)
+print(result["answer"])
