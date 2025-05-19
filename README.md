@@ -1,5 +1,5 @@
 # enngpt
-enngpt
+Sandbox repository for studying
 
 python -m venv venv
 venv\Scripts\Activate.ps1
